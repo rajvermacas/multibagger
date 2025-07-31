@@ -126,7 +126,7 @@ class ExcelDataExtractor:
     
     def find_row_by_label(self, sheet_data: pd.DataFrame, label: str) -> Optional[int]:
         """
-        Find row index by searching for a label in the first column.
+        Find row index by searching for a label in the first column with fuzzy matching.
         
         Args:
             sheet_data (pd.DataFrame): The sheet data
@@ -135,12 +135,34 @@ class ExcelDataExtractor:
         Returns:
             Optional[int]: Row index if found, None otherwise
         """
+        label_lower = label.lower().strip()
+        
         for idx, row in sheet_data.iterrows():
             first_cell = row.iloc[0] if len(row) > 0 else None
             if pd.notna(first_cell):
                 cell_str = str(first_cell).lower().strip()
-                if label.lower() in cell_str:
+                
+                # Exact match
+                if label_lower == cell_str:
                     return idx
+                
+                # Substring match
+                if label_lower in cell_str or cell_str in label_lower:
+                    return idx
+                    
+                # Fuzzy matching - remove common words and check key terms
+                cell_words = set(cell_str.replace('-', ' ').split())
+                label_words = set(label_lower.replace('-', ' ').split())
+                
+                # Remove common filler words
+                filler_words = {'from', 'to', 'the', 'and', 'or', 'of', 'in', 'for', 'with', 'total'}
+                cell_words = cell_words - filler_words
+                label_words = label_words - filler_words
+                
+                # Check if key words match
+                if label_words and cell_words and len(label_words & cell_words) >= min(len(label_words), 2):
+                    return idx
+                    
         return None
     
     def extract_numeric_values(self, row: pd.Series, years: List[int]) -> Dict[int, float]:
@@ -239,31 +261,74 @@ class ExcelDataExtractor:
         
         years = self.extract_years(sheet_data.iloc[year_row_idx])
         
-        # Define balance sheet metrics
+        # Define balance sheet metrics with comprehensive search terms
         metrics = {
-            'total_equity': ['total equity', 'shareholders equity', 'equity'],
-            'total_debt': ['total debt', 'total borrowings', 'debt'],
-            'current_assets': ['current assets'],
-            'current_liabilities': ['current liabilities'],
-            'fixed_assets': ['fixed assets', 'property plant equipment', 'ppe'],
-            'total_assets': ['total assets']
+            'total_equity': ['total equity', 'shareholders equity', 'equity', 'equity share capital'],
+            'total_debt': ['total debt', 'total borrowings', 'debt', 'borrowings'],
+            'current_assets': ['current assets', 'current asset', 'working capital', 'debtors', 'inventory'],
+            'current_liabilities': ['current liabilities', 'current liability', 'other liabilities'],
+            'fixed_assets': ['fixed assets', 'property plant equipment', 'ppe', 'net block', 'gross block', 'capital work in progress'],
+            'total_assets': ['total assets']  # Remove generic 'total' to avoid conflicts
         }
         
         extracted = {'years': years}
+        used_rows = set()  # Track which rows have been used to prevent duplicates
         
         for metric_key, search_terms in metrics.items():
             found = False
+            matched_term = None
+            matched_row = None
+            
             for term in search_terms:
                 row_idx = self.find_row_by_label(sheet_data, term)
-                if row_idx is not None:
+                if row_idx is not None and row_idx not in used_rows:
                     values = self.extract_numeric_values(sheet_data.iloc[row_idx], years)
                     extracted[metric_key] = values
+                    used_rows.add(row_idx)  # Mark this row as used
                     found = True
+                    matched_term = term
+                    matched_row = str(sheet_data.iloc[row_idx].iloc[0])
+                    logger.info(f"Balance Sheet: '{metric_key}' mapped to '{matched_row}' using search term '{matched_term}'")
                     break
+                elif row_idx is not None and row_idx in used_rows:
+                    logger.debug(f"Balance Sheet: Row {row_idx} ('{str(sheet_data.iloc[row_idx].iloc[0])}') already used, skipping for '{metric_key}'")
             
             if not found:
                 extracted[metric_key] = {year: 0.0 for year in years}
-                logger.warning(f"Metric '{metric_key}' not found in Balance Sheet")
+                logger.warning(f"Balance Sheet: '{metric_key}' not found. Searched for: {search_terms}")
+        
+        # Calculate total_assets if not found directly
+        if 'total_assets' in extracted and all(v == 0.0 for v in extracted['total_assets'].values()):
+            logger.info("Balance Sheet: Attempting to calculate total_assets from components")
+            calculated_total_assets = {}
+            
+            for year in years:
+                # Try to calculate as current_assets + fixed_assets
+                current_assets = extracted.get('current_assets', {}).get(year, 0)
+                fixed_assets = extracted.get('fixed_assets', {}).get(year, 0)
+                
+                # Also check if we can use total_debt + total_equity (balance equation)
+                total_debt = extracted.get('total_debt', {}).get(year, 0)
+                total_equity = extracted.get('total_equity', {}).get(year, 0)
+                
+                # Use the larger of the two methods (more reliable)
+                method1 = current_assets + fixed_assets  # Assets = Current + Fixed
+                method2 = total_debt + total_equity      # Assets = Liabilities + Equity
+                
+                if method2 > 0 and method2 > method1:
+                    calculated_total_assets[year] = method2
+                    logger.debug(f"Balance Sheet: Year {year} - using debt+equity method: {method2}")
+                elif method1 > 0:
+                    calculated_total_assets[year] = method1
+                    logger.debug(f"Balance Sheet: Year {year} - using current+fixed assets method: {method1}")
+                else:
+                    calculated_total_assets[year] = 0.0
+            
+            # Update total_assets if we got meaningful values
+            if any(v > 0 for v in calculated_total_assets.values()):
+                extracted['total_assets'] = calculated_total_assets
+                non_zero_count = sum(1 for v in calculated_total_assets.values() if v > 0)
+                logger.info(f"Balance Sheet: Successfully calculated total_assets for {non_zero_count}/{len(years)} years")
         
         return extracted
     
@@ -288,28 +353,38 @@ class ExcelDataExtractor:
         
         years = self.extract_years(sheet_data.iloc[year_row_idx])
         
-        # Define cash flow metrics
+        # Define cash flow metrics with comprehensive search terms
         metrics = {
-            'operating_cash_flow': ['operating cash flow', 'cash from operations', 'ocf'],
-            'capex': ['capex', 'capital expenditure', 'investments'],
-            'financing_cash_flow': ['financing cash flow', 'cash from financing']
+            'operating_cash_flow': ['operating cash flow', 'cash from operations', 'ocf', 'cash from operating activity', 'operating activity'],
+            'capex': ['capex', 'capital expenditure', 'investments', 'cash from investing activity', 'investing activity', 'capital expenditures'],
+            'financing_cash_flow': ['financing cash flow', 'cash from financing', 'cash from financing activity', 'financing activity']
         }
         
         extracted = {'years': years}
+        used_rows = set()  # Track which rows have been used to prevent duplicates
         
         for metric_key, search_terms in metrics.items():
             found = False
+            matched_term = None
+            matched_row = None
+            
             for term in search_terms:
                 row_idx = self.find_row_by_label(sheet_data, term)
-                if row_idx is not None:
+                if row_idx is not None and row_idx not in used_rows:
                     values = self.extract_numeric_values(sheet_data.iloc[row_idx], years)
                     extracted[metric_key] = values
+                    used_rows.add(row_idx)  # Mark this row as used
                     found = True
+                    matched_term = term
+                    matched_row = str(sheet_data.iloc[row_idx].iloc[0])
+                    logger.info(f"Cash Flow: '{metric_key}' mapped to '{matched_row}' using search term '{matched_term}'")
                     break
+                elif row_idx is not None and row_idx in used_rows:
+                    logger.debug(f"Cash Flow: Row {row_idx} ('{str(sheet_data.iloc[row_idx].iloc[0])}') already used, skipping for '{metric_key}'")
             
             if not found:
                 extracted[metric_key] = {year: 0.0 for year in years}
-                logger.warning(f"Metric '{metric_key}' not found in Cash Flow sheet")
+                logger.warning(f"Cash Flow: '{metric_key}' not found. Searched for: {search_terms}")
         
         # Calculate free cash flow
         if 'operating_cash_flow' in extracted and 'capex' in extracted:
@@ -318,6 +393,21 @@ class ExcelDataExtractor:
                 ocf = extracted['operating_cash_flow'].get(year, 0)
                 capex = abs(extracted['capex'].get(year, 0))  # Capex is usually negative
                 extracted['free_cash_flow'][year] = ocf - capex
+        
+        # Validate cash flow data quality - check for identical values indicating mapping errors
+        if 'operating_cash_flow' in extracted and 'capex' in extracted:
+            ocf_values = list(extracted['operating_cash_flow'].values())
+            capex_values = list(extracted['capex'].values())
+            
+            # Check if OCF and CAPEX have identical values (indicating wrong mapping)
+            if ocf_values == capex_values:
+                logger.error("Cash Flow validation: Operating Cash Flow and CAPEX have identical values - likely mapping error!")
+                logger.error(f"OCF values: {ocf_values}")
+                logger.error(f"CAPEX values: {capex_values}")
+            else:
+                non_zero_ocf = sum(1 for v in ocf_values if v != 0.0)
+                non_zero_capex = sum(1 for v in capex_values if v != 0.0)
+                logger.info(f"Cash Flow validation: OCF has {non_zero_ocf}/{len(ocf_values)} non-zero values, CAPEX has {non_zero_capex}/{len(capex_values)} non-zero values")
         
         return extracted
     
@@ -346,8 +436,27 @@ class ExcelDataExtractor:
                 if pd.notna(cell):
                     # Handle datetime objects for quarters (including datetime.datetime and pd.Timestamp)
                     if hasattr(cell, 'strftime'):
-                        quarter_count += 1
-                        row_quarters.append(cell.strftime('%Y-%m-%d'))
+                        # Check if it's a valid date (not just time like 00:00:00)
+                        if hasattr(cell, 'year') and cell.year > 1900:  # Valid year
+                            quarter_count += 1
+                            row_quarters.append(cell.strftime('%Y-%m-%d'))
+                        else:
+                            # Handle time-only cells like "00:00:00" by creating placeholder dates
+                            quarter_count += 1
+                            quarter_num = len(row_quarters) % 4  # 0,1,2,3 for Q1,Q2,Q3,Q4
+                            placeholder_year = 2020 + (len(row_quarters) // 4)  # Increment year every 4 quarters
+                            
+                            # Use proper quarter-end dates: Q1=Mar-31, Q2=Jun-30, Q3=Sep-30, Q4=Dec-31
+                            if quarter_num == 0:  # Q1
+                                quarter_date = f"{placeholder_year:04d}-03-31"
+                            elif quarter_num == 1:  # Q2  
+                                quarter_date = f"{placeholder_year:04d}-06-30"
+                            elif quarter_num == 2:  # Q3
+                                quarter_date = f"{placeholder_year:04d}-09-30"
+                            else:  # Q4
+                                quarter_date = f"{placeholder_year:04d}-12-31"
+                            
+                            row_quarters.append(quarter_date)
                     else:
                         cell_str = str(cell).upper()
                         if re.search(r'Q[1-4]', cell_str) or 'MAR' in cell_str or 'JUN' in cell_str or 'SEP' in cell_str or 'DEC' in cell_str:
@@ -360,8 +469,11 @@ class ExcelDataExtractor:
                 break
         
         if quarter_row_idx is None:
-            logger.warning("Quarter headers not found")
+            logger.warning("Quarter headers not found in sheet")
+            logger.info("Quarterly analysis will be skipped - only annual data will be used")
             return {}
+        
+        logger.info(f"Found quarterly headers in row {quarter_row_idx}: {quarters[:5]}{'...' if len(quarters) > 5 else ''}")
         
         # Extract quarterly revenue and profit
         metrics = {
@@ -397,6 +509,32 @@ class ExcelDataExtractor:
             if not found:
                 extracted[metric_key] = [0.0] * len(quarters)
                 logger.warning(f"Quarterly metric '{metric_key}' not found")
+        
+        # Validate quarterly data quality
+        total_quarters = len(quarters)
+        if total_quarters > 0:
+            revenue_values = extracted.get('revenue', [])
+            profit_values = extracted.get('net_profit', [])
+            
+            # Check if all values are zero
+            all_revenue_zero = all(v == 0.0 for v in revenue_values)
+            all_profit_zero = all(v == 0.0 for v in profit_values)
+            
+            if all_revenue_zero and all_profit_zero:
+                logger.warning(f"Quarterly data: Quarters sheet found but contains no actual financial data (all {total_quarters} quarters are zero)")
+                logger.warning("This indicates the Excel file may not have meaningful quarterly breakdowns - annual data will be used for analysis")
+            elif all_revenue_zero:
+                logger.warning(f"Quarterly data: All {total_quarters} quarters have zero revenue - may indicate incomplete data")
+            elif all_profit_zero:
+                logger.warning(f"Quarterly data: All {total_quarters} quarters have zero profit - may indicate losses or incomplete data")
+            else:
+                non_zero_revenue = sum(1 for v in revenue_values if v != 0.0)
+                non_zero_profit = sum(1 for v in profit_values if v != 0.0)
+                logger.info(f"Quarterly data: Found valid data - {non_zero_revenue}/{total_quarters} quarters with revenue, {non_zero_profit}/{total_quarters} with profit")
+                
+            # Log quarter date range for verification
+            if quarters:
+                logger.info(f"Quarterly data: Date range from {quarters[0]} to {quarters[-1]}")
         
         return extracted
     
