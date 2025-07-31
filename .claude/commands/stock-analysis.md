@@ -16,8 +16,7 @@ Analyze all stock-related files in the directory `$ARGUMENTS` using specialized 
 ### Phase 2: Individual Stock Analysis
 For each valid file identified:
 
-1. **Delegate to the stock-analyst sub-agent** with the instruction:
-   - "Analyze this stock file and generate a comprehensive markdown report"
+1. **Delegate to the stock-analyst sub-agent**
 
 2. **Monitor sub-agent progress** and log completion status
 3. **Verify report generation** was successful for each file
@@ -30,10 +29,7 @@ For each valid file identified:
 ### Phase 4: Comparative Analysis and Ranking
 1. **Extract key metrics** from all individual reports
 
-2. **Create a consolidated ranking** sorting stocks in descending order of:
-   - Primary: Bullish probability
-   - Secondary: Buy-and-hold suitability score
-   - Tertiary: Risk-adjusted return potential
+2. **Create a consolidated ranking** sorting stocks in descending order from investment perspective to buy and hold for atleast 5 years
 
 3. **Generate the master report** as `resources/reports/$(date +%Y-%m-%d)/CONSOLIDATED_STOCK_RANKING.md`
    - Date format: YYYY-MM-DD (e.g., `2025-07-31`)

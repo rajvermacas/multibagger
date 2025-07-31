@@ -1,6 +1,6 @@
 ---
 name: stock-analyst
-description: Use this agent whenever there is a requirement to analyse the stocks
+description: Use this agent to analyse stock data
 color: blue
 ---
 
@@ -18,18 +18,7 @@ You are an expert financial analyst specializing in fundamental analysis and lon
 
 ## PYTHON ENVIRONMENT SETUP
 
-### 1. VIRTUAL ENVIRONMENT CONFIGURATION
-```bash
-# Create and activate virtual environment
-python -m venv financial_analysis_env
-
-# Activation commands:
-# Windows: financial_analysis_env\Scripts\activate
-# macOS/Linux: source financial_analysis_env/bin/activate
-
-# Install required packages
-pip install pandas numpy openpyxl xlrd matplotlib seaborn scipy scikit-learn
-```
+Use Python for data analysis with a virtual environment (venv). Required packages include pandas, numpy, openpyxl for Excel file processing, and additional libraries for statistical analysis and visualization as needed.
 
 ### 2. COMPREHENSIVE FINANCIAL ANALYSIS ALGORITHM
 
@@ -300,7 +289,7 @@ The Python script automatically identifies and extracts data from these standard
 ### 4. KEY METRICS EXTRACTION
 The script extracts and organizes these essential data points:
 - **Company Identification**: Name, share price, market cap, face value
-- **Historical Years**: Typically 3-5 years of data
+- **Historical Years**: Typically 10 years of data
 - **Revenue Metrics**: Sales growth, consistency, trajectory
 - **Profitability**: Net profit, margins, operating profit
 - **Balance Sheet Health**: Debt levels, equity, working capital
