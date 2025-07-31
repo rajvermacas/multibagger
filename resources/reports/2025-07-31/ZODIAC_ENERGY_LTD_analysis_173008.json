@@ -1,0 +1,305 @@
+{
+  "company_info": {
+    "name": "ZODIAC ENERGY LTD",
+    "current_price": 458.4,
+    "market_cap": 688.38,
+    "face_value": 10.0,
+    "outstanding_shares": 1.5017015706806283,
+    "analysis_date": "2025-07-31"
+  },
+  "historical_data": {
+    "years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "revenue": [
+      9.19,
+      16.7,
+      38.39,
+      63.28,
+      68.18,
+      100.37,
+      142.97,
+      137.66,
+      220.06,
+      407.78
+    ],
+    "operating_profit": [
+      0.5799999999999983,
+      0.8000000000000007,
+      3.0799999999999983,
+      4.810000000000002,
+      4.810000000000002,
+      7.120000000000019,
+      8.880000000000024,
+      7.5,
+      18.960000000000036,
+      37.04000000000002
+    ],
+    "net_profit": [
+      0.11,
+      0.25,
+      2.0,
+      3.1,
+      3.0,
+      4.42,
+      5.46,
+      3.19,
+      10.97,
+      19.97
+    ],
+    "eps": [
+      0.6111111111111112,
+      1.3888888888888888,
+      1.36986301369863,
+      2.1232876712328768,
+      2.0547945205479454,
+      3.0273972602739727,
+      3.73972602739726,
+      2.184931506849315,
+      7.513698630136987,
+      13.225165562913906
+    ],
+    "dividend": [
+      0.0,
+      0.0,
+      0.0,
+      0.5903225806451613,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.05658487731597396
+    ],
+    "total_equity": [
+      0.88,
+      0.88,
+      7.32,
+      7.32,
+      7.32,
+      14.63,
+      14.63,
+      14.63,
+      14.63,
+      15.1
+    ],
+    "total_debt": [
+      3.34,
+      4.92,
+      10.53,
+      17.63,
+      25.34,
+      22.77,
+      30.38,
+      41.39,
+      72.2,
+      57.07
+    ],
+    "current_assets": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "current_liabilities": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "fixed_assets": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "operating_cash_flow": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "capex": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "free_cash_flow": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "quarterly_data": {
+    "quarters": [
+      "2022-12-31",
+      "2023-03-31",
+      "2023-06-30",
+      "2023-09-30",
+      "2023-12-31",
+      "2024-03-31",
+      "2024-06-30",
+      "2024-09-30",
+      "2024-12-31",
+      "2025-03-31"
+    ],
+    "revenue": [
+      24.95,
+      62.1,
+      32.1,
+      34.41,
+      46.92,
+      106.63,
+      79.34,
+      52.77,
+      104.33,
+      171.34
+    ],
+    "net_profit": [
+      1.14,
+      1.61,
+      0.82,
+      1.48,
+      2.95,
+      5.69,
+      2.33,
+      2.49,
+      5.71,
+      9.44
+    ]
+  },
+  "calculated_metrics": {
+    "growth_metrics": {
+      "revenue_cagr_3yr": 72.11,
+      "revenue_cagr_5yr": 41.97,
+      "revenue_cagr_10yr": 52.41,
+      "profit_cagr_3yr": 150.2,
+      "profit_cagr_5yr": 45.79,
+      "profit_cagr_10yr": 78.24,
+      "eps_growth_rate": 44.57,
+      "quarterly_growth_momentum": 36.04
+    },
+    "profitability_ratios": {
+      "operating_margin": 9.08,
+      "net_profit_margin": 4.9,
+      "roe": 132.25,
+      "roce": 51.32,
+      "roa": 0.0,
+      "gross_margin": 13.62
+    },
+    "efficiency_ratios": {
+      "asset_turnover": 0.0,
+      "working_capital_turnover": 0.0,
+      "inventory_turnover": 0.0,
+      "receivables_days": 0.0
+    },
+    "leverage_ratios": {
+      "debt_to_equity": 3.78,
+      "debt_to_ebitda": 1.28,
+      "interest_coverage": 8.11,
+      "financial_leverage": 0.0
+    },
+    "liquidity_ratios": {
+      "current_ratio": 0.0,
+      "quick_ratio": 0.0,
+      "cash_ratio": 0.0
+    },
+    "valuation_ratios": {
+      "pe_ratio": 34.66,
+      "pb_ratio": 45.59,
+      "ev_ebitda": 16.77,
+      "peg_ratio": 0.23
+    },
+    "cash_flow_ratios": {
+      "ocf_to_net_profit": 0.0,
+      "fcf_to_revenue": 0.0,
+      "cash_conversion_cycle": 58
+    }
+  },
+  "investment_score": {
+    "total_score": 30,
+    "category_scores": {
+      "growth_quality": 20,
+      "profitability": 0,
+      "financial_health": 0,
+      "cash_flow_quality": 0,
+      "valuation": 10
+    },
+    "recommendation": "HOLD",
+    "confidence_level": "MEDIUM"
+  },
+  "investment_thesis": {
+    "bull_case_points": [
+      "Strong revenue growth with 42.0% CAGR over 5 years"
+    ],
+    "bear_case_points": [
+      "Low profit margins indicating competitive pressure",
+      "High leverage increases financial risk"
+    ],
+    "key_risks": [
+      "Market competition and competitive positioning",
+      "Economic downturn impact on business performance",
+      "Regulatory changes affecting industry dynamics",
+      "Management execution and capital allocation decisions"
+    ]
+  },
+  "analysis_metadata": {
+    "excel_file_path": "/root/projects/Multibagger/resources/Stocks/2025-07-31/Zodiac Energy.xlsx",
+    "analysis_timestamp": "2025-07-31T17:30:08.346888",
+    "data_quality": "HIGH",
+    "missing_data_points": [],
+    "calculation_errors": [],
+    "recommendations_basis": "Fundamental analysis based on multi-year financial trends",
+    "version": "1.0.0",
+    "file_saved_at": "2025-07-31T17:30:08.349881",
+    "file_path": "/root/projects/Multibagger/resources/reports/2025-07-31/ZODIAC_ENERGY_LTD_analysis_173008.json",
+    "file_name": "ZODIAC_ENERGY_LTD_analysis_173008.json"
+  }
+}

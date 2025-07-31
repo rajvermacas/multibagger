@@ -1,0 +1,304 @@
+{
+  "company_info": {
+    "name": "VINTRON INFORMATICS LTD",
+    "current_price": 17.63,
+    "market_cap": 175.3,
+    "face_value": 1.0,
+    "outstanding_shares": 9.943278502552468,
+    "analysis_date": "2025-07-31"
+  },
+  "historical_data": {
+    "years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "revenue": [
+      14.55,
+      21.92,
+      24.62,
+      23.93,
+      15.91,
+      12.39,
+      17.1,
+      17.91,
+      174.12,
+      610.46
+    ],
+    "operating_profit": [
+      -1.099999999999996,
+      -7.789999999999996,
+      -2.9600000000000044,
+      -0.4799999999999933,
+      -1.7200000000000024,
+      -1.25,
+      0.16000000000000014,
+      -1.610000000000003,
+      16.669999999999987,
+      48.440000000000055
+    ],
+    "net_profit": [
+      -2.59,
+      -9.21,
+      -4.78,
+      -2.35,
+      4.18,
+      -3.11,
+      -1.81,
+      -1.08,
+      16.65,
+      47.92
+    ],
+    "eps": [
+      -0.33035714285714285,
+      -1.174744897959184,
+      -0.6096938775510204,
+      -0.2997448979591837,
+      0.5331632653061225,
+      -0.39668367346938777,
+      -0.23086734693877553,
+      -0.13775510204081634,
+      2.123724489795918,
+      4.82092555331992
+    ],
+    "dividend": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "total_equity": [
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      7.84,
+      9.94
+    ],
+    "total_debt": [
+      5.06,
+      4.36,
+      4.22,
+      3.87,
+      1.83,
+      1.44,
+      1.64,
+      1.51,
+      166.77,
+      781.52
+    ],
+    "current_assets": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "current_liabilities": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "fixed_assets": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "operating_cash_flow": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "capex": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "free_cash_flow": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "quarterly_data": {
+    "quarters": [
+      "2022-12-31",
+      "2023-03-31",
+      "2023-06-30",
+      "2023-09-30",
+      "2023-12-31",
+      "2024-03-31",
+      "2024-06-30",
+      "2024-09-30",
+      "2024-12-31",
+      "2025-03-31"
+    ],
+    "revenue": [
+      1.41,
+      4.13,
+      0.0,
+      1.0,
+      5.57,
+      167.55,
+      0.0,
+      359.1,
+      251.36,
+      75.88
+    ],
+    "net_profit": [
+      -0.45,
+      -1.72,
+      -0.15,
+      -0.07,
+      0.36,
+      16.52,
+      -0.19,
+      22.41,
+      12.31,
+      15.64
+    ]
+  },
+  "calculated_metrics": {
+    "growth_metrics": {
+      "revenue_cagr_3yr": 483.82,
+      "revenue_cagr_5yr": 164.94,
+      "revenue_cagr_10yr": 51.46,
+      "profit_cagr_3yr": 0.0,
+      "profit_cagr_5yr": 0.0,
+      "profit_cagr_10yr": 0.0,
+      "eps_growth_rate": 0.0,
+      "quarterly_growth_momentum": 183.3
+    },
+    "profitability_ratios": {
+      "operating_margin": 7.93,
+      "net_profit_margin": 7.85,
+      "roe": 482.09,
+      "roce": 6.12,
+      "roa": 0.0,
+      "gross_margin": 11.9
+    },
+    "efficiency_ratios": {
+      "asset_turnover": 0.0,
+      "working_capital_turnover": 0.0,
+      "inventory_turnover": 0.0,
+      "receivables_days": 0.0
+    },
+    "leverage_ratios": {
+      "debt_to_equity": 78.62,
+      "debt_to_ebitda": 13.44,
+      "interest_coverage": 0.77,
+      "financial_leverage": 0.0
+    },
+    "liquidity_ratios": {
+      "current_ratio": 0.0,
+      "quick_ratio": 0.0,
+      "cash_ratio": 0.0
+    },
+    "valuation_ratios": {
+      "pe_ratio": 3.66,
+      "pb_ratio": 17.64,
+      "ev_ebitda": 16.46,
+      "peg_ratio": 0.0
+    },
+    "cash_flow_ratios": {
+      "ocf_to_net_profit": 0.0,
+      "fcf_to_revenue": 0.0,
+      "cash_conversion_cycle": 58
+    }
+  },
+  "investment_score": {
+    "total_score": 50,
+    "category_scores": {
+      "growth_quality": 20,
+      "profitability": 10,
+      "financial_health": 0,
+      "cash_flow_quality": 0,
+      "valuation": 20
+    },
+    "recommendation": "BUY",
+    "confidence_level": "MEDIUM"
+  },
+  "investment_thesis": {
+    "bull_case_points": [
+      "Strong revenue growth with 164.9% CAGR over 5 years"
+    ],
+    "bear_case_points": [
+      "High leverage increases financial risk"
+    ],
+    "key_risks": [
+      "Market competition and competitive positioning",
+      "Economic downturn impact on business performance",
+      "Regulatory changes affecting industry dynamics",
+      "Management execution and capital allocation decisions"
+    ]
+  },
+  "analysis_metadata": {
+    "excel_file_path": "/root/projects/Multibagger/resources/Stocks/2025-07-31/Vintron Info.xlsx",
+    "analysis_timestamp": "2025-07-31T17:26:42.193502",
+    "data_quality": "HIGH",
+    "missing_data_points": [],
+    "calculation_errors": [],
+    "recommendations_basis": "Fundamental analysis based on multi-year financial trends",
+    "version": "1.0.0",
+    "file_saved_at": "2025-07-31T17:26:42.196637",
+    "file_path": "/root/projects/Multibagger/resources/reports/2025-07-31/VINTRON_INFORMATICS_LTD_analysis_172642.json",
+    "file_name": "VINTRON_INFORMATICS_LTD_analysis_172642.json"
+  }
+}
