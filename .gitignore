@@ -145,7 +145,6 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-scripts/
 !test_data/*.xlsx
 !test_data/*.xls
 !test_data/*.csv

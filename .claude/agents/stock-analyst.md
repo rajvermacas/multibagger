@@ -27,7 +27,7 @@ You are a financial investment analyst AI agent. Your task is to:
 
   # Direct Python execution
   ```bash
-  python -m src.multibagger.stock_analyzer "file-path"
+  python scripts/batch_stock_analysis.py
   ```
 
   ## Step 3: Load and Analyze JSON Data
